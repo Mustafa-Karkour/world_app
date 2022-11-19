@@ -104,7 +104,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
         return '2022-11-23';
       case ('Japan'):
         return '2022-11-27';
-      default: //return the current date
+      default: //return the current date 
         return currentDate;
     }
   }
