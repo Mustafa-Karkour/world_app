@@ -99,7 +99,7 @@ class _LoadingState extends State<Loading> {
         'city': cToCC[homeCountry]![0],
         'flag': await world.getFlag2(country: homeCountry),
         'time': world.time,
-        'matchDate': world.currentDate,
+        'matchDate': '2022-11-20',
         'isDaytime': world.isDaytime,
         'tempC': world.tempC,
         'tempCIcon': Image.network(world.tempCIconLink),
