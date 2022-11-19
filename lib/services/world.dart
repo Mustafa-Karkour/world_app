@@ -220,7 +220,7 @@ class World {
 
   Future<void> getAwayTeam(
       {required String homeTeam, required String date}) async {
-    //await getWorldCupInfo(date: date); //save fifa api consumption
+    await getWorldCupInfo(date: date); //save fifa api consumption
     int homeTeamIndex = homeTeams.indexOf(homeTeam) == -1
         ? awayTeams.indexOf(homeTeam)
         : homeTeams.indexOf(homeTeam);

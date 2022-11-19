@@ -126,8 +126,8 @@ class _HomeState extends State<Home> {
                         'matchDate': results['matchDate'],
                         'country': results['country'],
                         'flag': results['flag'], //home flag
-                        //'awayTeam': results['awayTeam'],
-                        //'awayFlag': results['awayFlag'],
+                        'awayTeam': results['awayTeam'],
+                        'awayFlag': results['awayFlag'],
                         'city': results['city'],
                         'isDaytime': results['isDaytime'],
                         'countries': dataFromLoadingSceen['countries'],
