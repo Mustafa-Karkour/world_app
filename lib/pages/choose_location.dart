@@ -104,7 +104,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
         return '2022-11-23';
       case ('Japan'):
         return '2022-11-27';
-      default: //return the current date 
+      default: //return the current date
         return currentDate;
     }
   }
@@ -140,12 +140,13 @@ class _ChooseLocationState extends State<ChooseLocation> {
       'matchDate': matchDate,
       'country': selectedCountry,
       'flag': homeTeamFlag,
-      'awayTeam': awayTeam + "s",
-      //'awayFlag': awayTeamFlag,
+      //'awayTeam': awayTeam,
+      //'awayFlag': await w.getFlag(country: w.awayTeam),
       'city': captial,
       'isDaytime': updatedIsDaytime,
       'countries': countries,
       'flags': flags,
+      'tempCIcon': Image.network(w.tempCIconLink),
     });
   }
 }

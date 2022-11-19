@@ -12,7 +12,6 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   Set<String> preprocessCountries({required List<String> countries}) {
-
     List<String> cs = countries;
 
     cs.remove('CuraÃ§ao');
@@ -28,15 +27,12 @@ class _LoadingState extends State<Loading> {
     cs.remove('Czech Republic');
     cs.remove('Faroe Islands');
     cs.remove('Cocos (Keeling) Islands');
-    
 
     cs.remove('Swaziland');
     cs.remove('United Kingdom of Great Britain and Northern Ireland');
 
-
-
     for (int i = 0; i < cs.length; i++) {
-        cs[i] = cs[i].trim();
+      cs[i] = cs[i].trim();
 
       if (cs[i].contains('Island') ||
           cs[i].contains('Islands') ||
@@ -52,12 +48,12 @@ class _LoadingState extends State<Loading> {
           cs[i].startsWith('Central')) {
         cs.remove(cs[i]);
       }
-       if (cs[i].contains('(')) {
+      if (cs[i].contains('(')) {
         int indexOfLeftBracket = cs[i].indexOf('(');
         cs[i] = cs[i].substring(0, indexOfLeftBracket);
         cs[i] = cs[i].trim();
       }
-       if (cs[i].contains(',')) {
+      if (cs[i].contains(',')) {
         int indexOfComma = cs[i].indexOf(',');
         cs[i] = cs[i].substring(0, indexOfComma);
         cs[i] = cs[i].trim();
@@ -72,13 +68,13 @@ class _LoadingState extends State<Loading> {
   void setupWorldInfo() async {
     World world = World();
     Map<String, List<String>> cToCC = await world.getCountriesData();
-    
+
     String homeCountry = 'Qatar';
     await world.getTime(
         continent: cToCC[homeCountry]![1], location: cToCC[homeCountry]![0]);
     await world.getTempC(country: homeCountry);
-    //date should be placed with the 'currentDate'
-    await world.getAwayTeam(homeTeam: homeCountry, date: world.currentDate);
+    //date should be placed with the 'world.currentDate'
+    await world.getAwayTeam(homeTeam: homeCountry, date: '2022-11-20');
 
     // print(cToCC.keys.toList());
     Set<String> countries = preprocessCountries(countries: cToCC.keys.toList());
@@ -107,8 +103,8 @@ class _LoadingState extends State<Loading> {
         'isDaytime': world.isDaytime,
         'tempC': world.tempC,
         'tempCIcon': Image.network(world.tempCIconLink),
-        'awayTeam': world.awayTeam + "s",
-        //'awayFlag':  await world.getFlag(country: world.awayTeam),
+        //'awayTeam': world.awayTeam,
+        //'awayFlag': await world.getFlag(country: world.awayTeam),
         'countries': countries.toList(),
         'flags': flags,
         'cToCC': cToCC,
