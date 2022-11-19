@@ -141,7 +141,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
       'country': selectedCountry,
       'flag': homeTeamFlag,
       'awayTeam': awayTeam,
-      'awayFlag': await w.getFlag(country: w.awayTeam),
+      'awayFlag': await w.getFlag2(country: w.awayTeam),
       'city': captial,
       'isDaytime': updatedIsDaytime,
       'countries': countries,

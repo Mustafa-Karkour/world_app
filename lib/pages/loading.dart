@@ -104,7 +104,7 @@ class _LoadingState extends State<Loading> {
         'tempC': world.tempC,
         'tempCIcon': Image.network(world.tempCIconLink),
         'awayTeam': world.awayTeam,
-        'awayFlag': await world.getFlag(country: world.awayTeam),
+        'awayFlag': await world.getFlag2(country: world.awayTeam),
         'countries': countries.toList(),
         'flags': flags,
         'cToCC': cToCC,
