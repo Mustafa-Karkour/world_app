@@ -12,6 +12,7 @@ class World {
   String currentDate = intl.DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   List<String> homeTeams = [], awayTeams = [], groups = [], matchTimes = [];
+  Map<String,String> homeTeamToWinner = {}, homeToScore = {}, awayToScore = {};
   late int tempC; //current temperature in Celsius
   late bool isDaytime;
 
@@ -82,14 +83,14 @@ class World {
   }
 
   Future<void> getWorldCupInfo({required String date}) async {
-    //Returns Home Team vs Away Team of the given date
+    //Returns Home Team vs Away Team, Winner and Scores of the given date
     //date format YYYY-MM-DD
 
     try {
       var worldURL = Uri.parse(
           'https://fifa-2022-schedule-and-stats.p.rapidapi.com/schedule?date=$date');
       http.Response response = await http.get(worldURL, headers: {
-        'X-RapidAPI-Key': '5691b50077mshec2b3d97c63061dp1e193fjsne4224e8e8416',
+        'X-RapidAPI-Key': 'ecb5e9ece5msh1be3f522b55ca39p1718ccjsn46a9c14e86da',
         'X-RapidAPI-Host': 'fifa-2022-schedule-and-stats.p.rapidapi.com'
       });
 
@@ -108,15 +109,23 @@ class World {
         var homeTeam = home['ShortClubName'];
         homeTeams.add(homeTeam);
 
-        var homeScore = match['HomeTeamScore'];
+        var homeScore = match['HomeTeamScore'].toString();
+        this.homeToScore.addAll({homeTeam: homeScore});
 
         var away = match['Away'];
         var awayTeam = away['ShortClubName'];
         awayTeams.add(awayTeam);
 
-        var awayScore = match['AwayTeamScore'];
+        var awayScore = match['AwayTeamScore'].toString();
+        this.awayToScore.addAll({awayTeam:awayScore});
 
-        var winner = match['Winner'];
+
+        var winner = int.parse(homeScore) > int.parse(awayScore) ? homeTeam : awayTeam;
+        if(int.parse(homeScore) == int.parse(awayScore))
+          winner = 'Tie';
+
+
+        this.homeTeamToWinner.addAll({homeTeam:winner});
 
         // print(
         //   'Home Team: $homeTeam \n'+
@@ -154,23 +163,34 @@ class World {
 
   //faster version
   ClipOval getFlag2({required String country}) {
-    try {
+    if(country.isNotEmpty){
+      try {
 //Image.network('https://countryflagsapi.com/png/$country')
-      return ClipOval(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.network(
-            'https://countryflagsapi.com/png/$country',
-            fit: BoxFit.fill,
-            width: 60,
-            height: 60,
+        return ClipOval(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.network(
+              'https://countryflagsapi.com/png/$country',
+              fit: BoxFit.fill,
+              width: 60,
+              height: 60,
+            ),
           ),
-        ),
-      );
-    } catch (e) {
-      print('getFlag2 Failed\n$e');
-      print('Failed on Flag $country');
-      //Image.network('https://kubalubra.is/wp-content/uploads/2017/11/default-thumbnail.jpg');
+        );
+      } catch (e) {
+        print('getFlag2 Failed\n$e');
+        print('Failed on Flag $country');
+        //Image.network('https://kubalubra.is/wp-content/uploads/2017/11/default-thumbnail.jpg');
+        return ClipOval(
+          child: Image.network(
+            'https://kubalubra.is/wp-content/uploads/2017/11/default-thumbnail.jpg',
+            fit: BoxFit.fill,
+            width: 50,
+            height: 50,
+          ),
+        );
+      }
+    }else{
       return ClipOval(
         child: Image.network(
           'https://kubalubra.is/wp-content/uploads/2017/11/default-thumbnail.jpg',

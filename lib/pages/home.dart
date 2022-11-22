@@ -66,6 +66,59 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Widget setScores(
+      {required bool isDaytime,
+      required String homeScore,
+      required String awayScore,
+      required String winner}) {
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.fromLTRB(49, 0, 49, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                '$homeScore',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: isDaytime ? Colors.black : Colors.white,
+                ),
+              ),
+              Text(
+                '—',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: isDaytime ? Colors.black : Colors.white,
+                ),
+              ),
+              Text(
+                '$awayScore',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: isDaytime ? Colors.black : Colors.white,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 25),
+        Center(
+          child: Text("🏆Winner: $winner",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: isDaytime ? Colors.yellow : Colors.yellow.shade500,
+              )),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     //first time loading the data
@@ -132,8 +185,11 @@ class _HomeState extends State<Home> {
                         'isDaytime': results['isDaytime'],
                         'countries': dataFromLoadingSceen['countries'],
                         'flags': dataFromLoadingSceen['flags'],
-                        'cToCC':dataFromLoadingSceen['cToCC'],
+                        'cToCC': dataFromLoadingSceen['cToCC'],
                         'tempCIcon': dataFromLoadingSceen['tempCIcon'],
+                        'winner': results['winner'],
+                        'awayScore': results['awayScore'],
+                        'homeScore': results['homeScore'],
                       };
                     });
                   },
@@ -226,10 +282,17 @@ class _HomeState extends State<Home> {
                           child: awayTeamExists
                               ? setupFlags(
                                   isDaytime: isDaytime,
-                                  matchDate:
-                                      dataFromLoadingSceen['matchDate'])
+                                  matchDate: dataFromLoadingSceen['matchDate'])
                               : null,
                         ),
+                        SizedBox(height: 30),
+                        awayTeamExists
+                            ? setScores(
+                                isDaytime: isDaytime,
+                                homeScore: dataFromLoadingSceen['homeScore'],
+                                awayScore: dataFromLoadingSceen['awayScore'],
+                                winner: dataFromLoadingSceen['winner'])
+                            : Container(),
                       ],
                     ),
                   ],

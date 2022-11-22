@@ -96,7 +96,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
   }
 
   String getMatchDate({required String selectedCountry}) {
-    //TODO: get match dates for all countries if available
+    //TODO: get match dates for all countries if available {country: match date}
     switch (selectedCountry) {
       case ('Qatar'):
         return '2022-11-20';
@@ -104,6 +104,8 @@ class _ChooseLocationState extends State<ChooseLocation> {
         return '2022-11-23';
       case ('Japan'):
         return '2022-11-27';
+      case('Saudi Arabia'):
+        return '2022-11-22';
       default: //return the current date
         return currentDate;
     }
@@ -127,19 +129,27 @@ class _ChooseLocationState extends State<ChooseLocation> {
     await w.getAwayTeam(date: matchDate, homeTeam: selectedCountry);
     String awayTeam = w.awayTeam;
 
-    int homeTeamIndex = countries.indexOf(selectedCountry);
-    int awayTeamIndex = countries.indexOf(awayTeam);
+    // int homeTeamIndex = countries.indexOf(selectedCountry);
+    // int awayTeamIndex = countries.indexOf(awayTeam);
 
-    ClipOval homeTeamFlag = flags[homeTeamIndex];
-    //ClipOval awayTeamFlag = flags[awayTeamIndex];
+    // ClipOval homeTeamFlag = flags[homeTeamIndex];
+    // ClipOval awayTeamFlag = flags[awayTeamIndex];
 
+    String? homeScore = w.homeToScore[selectedCountry]??w.awayToScore[selectedCountry];
+    String? awayScore = w.awayToScore[awayTeam]??w.homeToScore[awayTeam];
+    String? winner = w.homeTeamToWinner[selectedCountry]??
+        w.homeTeamToWinner[awayTeam];
+
+    print('homeScore: $homeScore');
+    print('awayScore: $awayScore');
+    print('winner: $winner');
     //pop the current screen since the previous one is still available
     Navigator.pop(context, {
       'time': updatedTime,
       'tempC': updatedTempC,
       'matchDate': matchDate,
       'country': selectedCountry,
-      'flag': homeTeamFlag,
+      'flag': await w.getFlag2(country: selectedCountry),
       'awayTeam': awayTeam,
       'awayFlag': await w.getFlag2(country: w.awayTeam),
       'city': captial,
@@ -147,6 +157,9 @@ class _ChooseLocationState extends State<ChooseLocation> {
       'countries': countries,
       'flags': flags,
       'tempCIcon': Image.network(w.tempCIconLink),
+      'homeScore': homeScore,
+      'awayScore': awayScore,
+      'winner': winner,
     });
   }
 }

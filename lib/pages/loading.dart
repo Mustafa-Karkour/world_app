@@ -90,6 +90,11 @@ class _LoadingState extends State<Loading> {
       flags.add(f);
     }
 
+    String? awayScore = world.awayTeam.isEmpty ? "" : world.awayToScore[world.awayTeam];
+    String? homeScore = world.awayTeam.isEmpty ? "" : world.homeToScore[homeCountry];
+    String? winner = world.homeTeamToWinner[homeCountry]??
+        world.homeTeamToWinner[world.awayTeam];
+
     //redirect the user to the home screen
     Navigator.pushReplacementNamed(
       context,
@@ -105,6 +110,9 @@ class _LoadingState extends State<Loading> {
         'tempCIcon': Image.network(world.tempCIconLink),
         'awayTeam': world.awayTeam,
         'awayFlag': await world.getFlag2(country: world.awayTeam),
+        'awayScore' : awayScore,
+        'homeScore': homeScore,
+        'winner': winner,
         'countries': countries.toList(),
         'flags': flags,
         'cToCC': cToCC,
